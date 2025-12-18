@@ -12,15 +12,19 @@ app.set("views",path.join(__dirname,"views"));
 app.use(express.static(path.join(__dirname,"public")));
 
 let posts = [
-    {
+    {    
+        id : "1a",
         username : "siddhigavhane",
         content  : "I Love Coding",
     },
     {
+        id : "2b",
         username : "prasadhase",
         content  : "I got my first internship",
     },
     {
+
+        id : "3c",
         username : "duduhase",
         content  : "dudu loves bubu",
     },
@@ -28,6 +32,26 @@ let posts = [
 app.get("/posts",(req,res) =>{
     res.render("index.ejs",{posts})
 
+});
+
+app.get("/posts/new",(req,res) =>{
+    res.render("new.ejs")
+
+});
+
+app.post("/posts",(req,res) =>{
+   let {username,content} = req.body;
+   posts.push({username,content});
+   res.redirect("/posts");
+
+});
+
+app.get("/posts/:id",(req,res) => {
+    let { id } = req.params;
+    let post = posts.find((p) => id === p.id);
+    res.render("show.ejs");
+    res.send("Request is Working");
+  
 });
 
 app.listen(port , () =>{
